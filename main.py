@@ -26,6 +26,7 @@ bert_encoder = hub.load("https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768
 
 le_name_mapping={0: 'BUSINESS', 1: 'EDUCATION', 2: 'ENTERTAINMENT', 3: 'FOOD & DRINK', 4: 'POLITICS', 5: 'SPORTS', 6: 'TECH', 7: 'WELLNESS'}
 
+@app.route('/predict',methods = ['POST'])
 def predict():
     text= input("Enter The Data", type=TEXT)
     #text = textarea('Text Area', rows=3, placeholder='Some text')
@@ -36,13 +37,9 @@ def predict():
     vectors_=bert_encoder(bp_)['pooled_output']
     vec=ss.transform(vectors_)
     prediction=ntc_model.predict(vec)
-    put_text('prediction = %r' % le_name_mapping[prediction[0]])
+    return put_text('prediction = %r' % le_name_mapping[prediction[0]])
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", type=int, default=8080)
-    args = parser.parse_args()
-
-    start_server(predict, port=args.port)
+    app.run(debug=True)
     
 #app.add_url_rule('/ntc','webio_view',webio_view(predict),methods=['GET','POST','OPTIONS'])
 #app.run(host='localhost',port=88)
