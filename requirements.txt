@@ -2,7 +2,9 @@ numpy
 pandas
 texthero
 pywebio
-tensorflow
+tensorflow-cpu
+tensorflow_hub
+tensorflow_text
 uvicorn
 uvloop
 httptools
